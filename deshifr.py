@@ -49,18 +49,26 @@ class MainWindow(QMainWindow):
     def S_Russk_func(self):
         self.label.setText('Перевод с русского языка на транслит')
         self.func = [translite_func, True, False]
+        self.text_for_translite.clear()
+        self.result.clear()
 
     def S_Angl_func(self):
         self.label.setText('Перевод с транслита на русский язык')
         self.func = [translite_func, True, True]
+        self.text_for_translite.clear()
+        self.result.clear()
 
     def Na_Angl_func(self):
         self.label.setText('Дешифровка с русской раскладки')
         self.func = [translite_func, False, True]
+        self.text_for_translite.clear()
+        self.result.clear()
 
     def Na_Russk_func(self):
         self.label.setText('Дешифровка с английской раскладки')
         self.func = [translite_func, False, False]
+        self.text_for_translite.clear()
+        self.result.clear()
 
     def translite(self):
         txt = self.text_for_translite.toPlainText()
