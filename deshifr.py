@@ -10,7 +10,7 @@ def translite_func(stro, desh, reverse=False):
                "ф": "f", "ы": "y", "в": "v", "а": "a", "п": "p", "р": "r",
                "о": "o", "л": "l", "д": "d", "ж": "zh", "э": "je", "я": "ya",
                "ч": "ch", "с": "s", "м": "m", "и": "i", "т": "t", "ь": "'",
-               "б": "b", "ю": "ju", "ё": "jo"}
+               "б": "b", "ю": "ju", "ё": "jo", "ву": "w", "ку": "q"}
     else:
         dic = {"q": "й", "`": "ё", "w": "ц", "e": "у", "r": "к", "t": "е",
                "y": "н", "u": "г", "i": "ш", "o": "щ", "p": "з", "[": "х",
@@ -39,7 +39,7 @@ class MainWindow(QMainWindow):
         self.initUI()
 
     def initUI(self):
-        self.func = [translite_func, True, True]
+        self.func = [False, True]
         self.perevesti.clicked.connect(self.translite)
         self.S_Russk.triggered.connect(self.S_Russk_func)
         self.S_Angl.triggered.connect(self.S_Angl_func)
@@ -48,33 +48,36 @@ class MainWindow(QMainWindow):
 
     def S_Russk_func(self):
         self.label.setText('Перевод с русского языка на транслит')
-        self.func = [translite_func, True, False]
+        self.func = [False, False]
         self.text_for_translite.clear()
         self.result.clear()
 
     def S_Angl_func(self):
         self.label.setText('Перевод с транслита на русский язык')
-        self.func = [translite_func, True, True]
+        self.func = [False, True]
         self.text_for_translite.clear()
         self.result.clear()
 
     def Na_Angl_func(self):
         self.label.setText('Дешифровка с русской раскладки')
-        self.func = [translite_func, False, True]
+        self.func = [True, True]
         self.text_for_translite.clear()
         self.result.clear()
 
     def Na_Russk_func(self):
         self.label.setText('Дешифровка с английской раскладки')
-        self.func = [translite_func, False, False]
+        self.func = [True, False]
         self.text_for_translite.clear()
         self.result.clear()
 
     def translite(self):
-        txt = self.text_for_translite.toPlainText()
-        print(self.func[0])
-        res = self.func[0](txt, self.func[1])
+        txt = self.text_for_translite.text()
+        res = translite_func(txt, self.func[0], self.func[1])
         self.result.setText(res)
+
+    def keyPressEvent(self, event):
+        if event.key() == 16777221 or event.key() == 16777220:
+            self.translite()
 
 
 if __name__ == '__main__':
